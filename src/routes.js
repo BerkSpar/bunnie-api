@@ -1,8 +1,17 @@
 import { Router } from 'express';
+import database from './database/index';
 
 const routes = new Router();
 
-routes.get('/', (req, res) => res.send('Everything ok'));
+routes.get('/', (req, res) => {
+  try {
+    database.connection.authenticate().then(() => {
+      res.send('Connection has been established successfully.');
+    });
+  } catch (error) {
+    res.send('Unable to connect to the database:', error);
+  }
+});
 routes.get('/info', (req, res) => res.send('Bunnie API'));
 
 //Users
