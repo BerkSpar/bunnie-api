@@ -3,7 +3,7 @@ import { Router } from 'express';
 const routes = new Router();
 
 routes.get('/', (req, res) => res.send('Everything ok'));
-routes.get('/info');
+routes.get('/info', (req, res) => res.send('Bunnie API'));
 
 //Users
 routes.get('/users');
