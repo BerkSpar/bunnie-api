@@ -9,7 +9,7 @@ class PostController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'validation error' });
+      return res.status(400).json({ message: 'validation error' });
     }
 
     const { content, image_url } = req.body;
