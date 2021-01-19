@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import database from './database/index';
 
+import PostController from './app/controllers/PostController';
+
 const routes = new Router();
 
 routes.get('/', (req, res) => {
@@ -23,7 +25,7 @@ routes.delete('/users/:user_id');
 
 //Post
 routes.get('/post');
-routes.post('/post');
+routes.post('/post', PostController.store);
 routes.get('/post/:post_id');
 routes.put('/post/:post_id');
 routes.delete('/post/:post_id');
