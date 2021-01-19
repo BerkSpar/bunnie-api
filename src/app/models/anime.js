@@ -1,29 +1,24 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class Anime extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  };
-  Anime.init({
-    user_id: DataTypes.INTEGER,
-    mal_id: DataTypes.INTEGER,
-    name: DataTypes.STRING,
-    current_episode: DataTypes.INTEGER,
-    total_episodes: DataTypes.INTEGER,
-    status: DataTypes.STRING,
-    note: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Anime',
-  });
-  return Anime;
-};
+import Sequelize, { Model } from 'sequelize';
+
+class Anime extends Model {
+  static init(sequelize) {
+    super.init(
+      {
+        user_id: Sequelize.INTEGER,
+        mal_id: Sequelize.INTEGER,
+        name: Sequelize.STRING,
+        current_episode: Sequelize.INTEGER,
+        total_episodes: Sequelize.INTEGER,
+        status: Sequelize.STRING,
+        note: Sequelize.STRING,
+      },
+      {
+        sequelize,
+      }
+    );
+
+    return this;
+  }
+}
+
+export default Anime;
