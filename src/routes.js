@@ -2,6 +2,7 @@ import { Router } from 'express';
 import database from './database/index';
 
 import PostController from './app/controllers/PostController';
+import UserController from './app/controllers/UserController';
 
 const routes = new Router();
 
@@ -18,7 +19,7 @@ routes.get('/info', (req, res) => res.send('Bunnie API'));
 
 //Users
 routes.get('/users');
-routes.post('/users');
+routes.post('/users', UserController.store);
 routes.get('/users/:user_id');
 routes.put('/users/:user_id');
 routes.delete('/users/:user_id');

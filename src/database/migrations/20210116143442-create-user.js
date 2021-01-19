@@ -26,12 +26,6 @@ module.exports = {
       password_hash: {
         type: Sequelize.STRING,
       },
-      registered_at: {
-        type: Sequelize.DATE,
-      },
-      last_login: {
-        type: Sequelize.DATE,
-      },
       bio: {
         type: Sequelize.STRING,
       },
