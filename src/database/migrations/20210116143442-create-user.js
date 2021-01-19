@@ -35,7 +35,7 @@ module.exports = {
       bio: {
         type: Sequelize.STRING,
       },
-      public: {
+      is_public: {
         type: Sequelize.BOOLEAN,
       },
       created_at: {
