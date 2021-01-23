@@ -2,6 +2,7 @@ import { Router } from 'express';
 import database from './database/index';
 
 import PostController from './app/controllers/PostController';
+import CommentController from './app/controllers/CommentController';
 import UserController from './app/controllers/UserController';
 
 const routes = new Router();
@@ -33,7 +34,7 @@ routes.delete('/post/:post_id');
 
 //Comments
 routes.get('/posts/:post_id/comments');
-routes.post('/posts/:post_id/comments');
+routes.post('/posts/:post_id/comments', CommentController.store);
 routes.get('/posts/:post_id/comments/:comment_id');
 routes.put('/posts/:post_id/comments/:comment_id');
 routes.delete('/posts/:post_id/comments/:comment_id');
