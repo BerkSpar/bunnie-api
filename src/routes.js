@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import database from './database/index';
 
+import Auth from './app/middlewares/auth';
+
 import PostController from './app/controllers/PostController';
 import CommentController from './app/controllers/CommentController';
 import UserController from './app/controllers/UserController';
@@ -20,6 +22,8 @@ routes.get('/', (req, res) => {
 });
 routes.get('/info', (req, res) => res.send('Bunnie API'));
 
+routes.post('/users/signin', UserController.signIn);
+
 //Users
 routes.get('/users');
 routes.post('/users', UserController.store);
@@ -29,27 +33,27 @@ routes.delete('/users/:user_id');
 
 //Post
 routes.get('/post');
-routes.post('/post', PostController.store);
+routes.post('/post', Auth.verify, PostController.store);
 routes.get('/post/:post_id');
 routes.put('/post/:post_id');
 routes.delete('/post/:post_id');
 
 //Comments
 routes.get('/posts/:post_id/comments');
-routes.post('/posts/:post_id/comments', CommentController.store);
+routes.post('/posts/:post_id/comments', Auth.verify, CommentController.store);
 routes.get('/posts/:post_id/comments/:comment_id');
 routes.put('/posts/:post_id/comments/:comment_id');
 routes.delete('/posts/:post_id/comments/:comment_id');
 
 //Anime
 routes.get('/animes');
-routes.post('/animes', AnimeController.store);
+routes.post('/animes', Auth.verify, AnimeController.store);
 routes.put('/animes/:anime_id');
 routes.delete('/animes/:anime_id');
 
 //Collection
 routes.get('/collections');
-routes.post('/collections', CollectionController.store);
+routes.post('/collections', Auth.verify, CollectionController.store);
 routes.put('/collections/:collection_id');
 routes.delete('/collections/:collection_id');
 
