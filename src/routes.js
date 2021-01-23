@@ -4,6 +4,7 @@ import database from './database/index';
 import PostController from './app/controllers/PostController';
 import CommentController from './app/controllers/CommentController';
 import UserController from './app/controllers/UserController';
+import AnimeController from './app/controllers/AnimeController';
 
 const routes = new Router();
 
@@ -41,7 +42,7 @@ routes.delete('/posts/:post_id/comments/:comment_id');
 
 //Anime
 routes.get('/animes');
-routes.post('/animes');
+routes.post('/animes', AnimeController.store);
 routes.put('/animes/:anime_id');
 routes.delete('/animes/:anime_id');
 
