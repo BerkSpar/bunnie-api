@@ -20,7 +20,7 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
-      public: {
+      is_public: {
         type: Sequelize.BOOLEAN
       },
       created_at: {

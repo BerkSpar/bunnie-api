@@ -8,7 +8,7 @@ class Collection extends Model {
         image_url: Sequelize.STRING,
         name: Sequelize.STRING,
         description: Sequelize.STRING,
-        public: Sequelize.BOOLEAN,
+        is_public: Sequelize.BOOLEAN,
       },
       {
         sequelize,
