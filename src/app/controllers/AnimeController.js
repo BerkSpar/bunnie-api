@@ -8,7 +8,7 @@ class AnimeController {
       name: Yup.string().required(),
       current_episode: Yup.number().required(),
       status: Yup.string().required(),
-      note: Yup.string().default('').notRequired(),
+      note: Yup.string().notRequired(),
     });
 
     if (!(await schema.isValid(req.body))) {
