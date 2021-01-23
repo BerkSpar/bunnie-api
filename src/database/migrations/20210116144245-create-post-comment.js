@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('PostComments', {
+    await queryInterface.createTable('post_comments', {
       id: {
         allowNull: false,
         autoIncrement: true,
