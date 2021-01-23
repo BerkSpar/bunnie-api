@@ -5,6 +5,7 @@ import PostController from './app/controllers/PostController';
 import CommentController from './app/controllers/CommentController';
 import UserController from './app/controllers/UserController';
 import AnimeController from './app/controllers/AnimeController';
+import CollectionController from './app/controllers/CollectionController';
 
 const routes = new Router();
 
@@ -48,7 +49,7 @@ routes.delete('/animes/:anime_id');
 
 //Collection
 routes.get('/collections');
-routes.post('/collections');
+routes.post('/collections', CollectionController.store);
 routes.put('/collections/:collection_id');
 routes.delete('/collections/:collection_id');
 
