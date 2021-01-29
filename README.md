@@ -1,6 +1,6 @@
 # Bunnie API
 
-It's a NodeJS RestFul API for [Bunnie](github.com/berkspar/bunnie).
+It's a NodeJS RestFul API for [Bunnie](https://github.com/berkspar/bunnie).
 
 ## Routes
 
