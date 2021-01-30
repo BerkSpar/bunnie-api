@@ -92,6 +92,12 @@ class AnimeController {
       .status(200)
       .json({ message: 'anime entry deleted successfully' });
   }
+
+  async index(req, res) {
+    const animes = await Anime.findAll({ where: { user_id: req.user_id } });
+
+    return res.status(200).json(animes);
+  }
 }
 
 export default new AnimeController();
