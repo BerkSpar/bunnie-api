@@ -78,12 +78,10 @@ class UserController {
     }
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRE_TIME,
+      expiresIn: '1d',
     });
 
-    return res
-      .status(200)
-      .json({ token, expires_in: process.env.JWT_EXPIRE_TIME });
+    return res.status(200).json({ token, expires_in: '1d' });
   }
 }
 
