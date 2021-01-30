@@ -1,4 +1,6 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
+
 import Collection from '../models/collection';
 import CollectionItem from '../models/collectionitem';
 
@@ -55,6 +57,30 @@ class CollectionController {
     });
 
     return res.status(200).json(collections);
+  }
+
+  async delete(req, res) {
+    const id = req.params.collection_id;
+
+    if (!id) {
+      return res.status(400).json({ message: 'validation error' });
+    }
+
+    const collection = await Collection.findOne({
+      where: {
+        [Op.and]: [{ id }, { user_id: req.user_id }],
+      },
+    });
+
+    if (!collection) {
+      return res.status(404).json({ message: 'collection not found' });
+    }
+
+    await collection.destroy();
+
+    return res
+      .status(200)
+      .json({ message: 'anime entry deleted successfully' });
   }
 }
 

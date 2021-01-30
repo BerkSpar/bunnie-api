@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Router } from 'express';
 import database from './database/index';
 
@@ -55,6 +56,6 @@ routes.delete('/animes/:anime_id', Auth.verify, AnimeController.delete);
 routes.get('/collections', Auth.verify, CollectionController.index);
 routes.post('/collections', Auth.verify, CollectionController.store);
 routes.put('/collections/:collection_id');
-routes.delete('/collections/:collection_id');
+routes.delete('/collections/:collection_id', Auth.verify, CollectionController.delete);
 
 export default routes;
