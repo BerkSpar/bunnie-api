@@ -31,6 +31,33 @@ class AnimeController {
 
     return res.status(200).json({ message: 'anime entry added successfully' });
   }
+
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      current_episode: Yup.number().required(),
+      status: Yup.string().required(),
+      note: Yup.string().notRequired(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ message: 'validation error' });
+    }
+
+    const { current_episode, status, note } = req.body;
+    const id = req.params.anime_id;
+
+    const anime = await Anime.findByPk(id);
+
+    await anime.update({
+      current_episode,
+      status,
+      note,
+    });
+
+    return res
+      .status(200)
+      .json({ message: 'anime entry updated successfully' });
+  }
 }
 
 export default new AnimeController();
