@@ -77,11 +77,9 @@ class UserController {
       return res.status(401).json({ message: 'unauthorized' });
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: '1d',
-    });
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {});
 
-    return res.status(200).json({ token, expires_in: '1d' });
+    return res.status(200).json({ token });
   }
 }
 
