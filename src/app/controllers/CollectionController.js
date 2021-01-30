@@ -82,6 +82,66 @@ class CollectionController {
       .status(200)
       .json({ message: 'anime entry deleted successfully' });
   }
+
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      image_url: Yup.string().required(),
+      name: Yup.string().required(),
+      description: Yup.string().notRequired(),
+      is_public: Yup.boolean().required(),
+      animes: Yup.array()
+        .of(
+          Yup.object().shape({
+            mal_id: Yup.string().required(),
+            order: Yup.number().required(),
+            note: Yup.string().notRequired(),
+          })
+        )
+        .required(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ message: 'validation error' });
+    }
+
+    var { image_url, name, description, is_public, animes } = req.body;
+    const id = req.params.collection_id;
+
+    const collection = await Collection.findOne({
+      where: {
+        [Op.and]: [{ id }, { user_id: req.user_id }],
+      },
+    });
+
+    if (!collection) {
+      return res.status(404).json({ message: 'collection entry not found' });
+    }
+
+    const items = await CollectionItem.findAll({
+      where: { collection_id: id },
+    });
+
+    items.map(async (item) => {
+      await item.destroy();
+    });
+
+    await collection.update({
+      user_id: req.user_id,
+      image_url,
+      name,
+      description,
+      is_public,
+    });
+
+    animes = animes.map((anime) => {
+      anime.collection_id = collection.id;
+      return anime;
+    });
+
+    await CollectionItem.bulkCreate(animes);
+
+    return res.status(200).json({ message: 'collection updated successfully' });
+  }
 }
 
 export default new CollectionController();
