@@ -1,4 +1,6 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
+
 import Anime from '../models/anime';
 
 class AnimeController {
@@ -46,7 +48,15 @@ class AnimeController {
     const { current_episode, status, note } = req.body;
     const id = req.params.anime_id;
 
-    const anime = await Anime.findByPk(id);
+    const anime = await Anime.findOne({
+      where: {
+        [Op.and]: [{ id }, { user_id: req.user_id }],
+      },
+    });
+
+    if (!anime) {
+      return res.status(404).json({ message: 'anime entry not found' });
+    }
 
     await anime.update({
       current_episode,
@@ -57,6 +67,30 @@ class AnimeController {
     return res
       .status(200)
       .json({ message: 'anime entry updated successfully' });
+  }
+
+  async delete(req, res) {
+    const id = req.params.anime_id;
+
+    if (!id) {
+      return res.status(400).json({ message: 'validation error' });
+    }
+
+    const anime = await Anime.findOne({
+      where: {
+        [Op.and]: [{ id }, { user_id: req.user_id }],
+      },
+    });
+
+    if (!anime) {
+      return res.status(404).json({ message: 'anime entry not found' });
+    }
+
+    await anime.destroy();
+
+    return res
+      .status(200)
+      .json({ message: 'anime entry deleted successfully' });
   }
 }
 
