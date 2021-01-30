@@ -48,6 +48,14 @@ class CollectionController {
 
     return res.status(200).json({ message: 'collection added successfully' });
   }
+
+  async index(req, res) {
+    const collections = await Collection.findAll({
+      where: { user_id: req.user_id },
+    });
+
+    return res.status(200).json(collections);
+  }
 }
 
 export default new CollectionController();
