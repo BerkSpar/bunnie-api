@@ -24,10 +24,8 @@ class CommentController {
       return res.status(404).json({ message: 'post not found' });
     }
 
-    //TODO: Get user id from auth header
-
     await PostComment.create({
-      user_id: 0,
+      user_id: req.user_id,
       post_id: comment.post_id,
       content: comment.comment,
     });

@@ -14,7 +14,7 @@ class Auth {
         return res.status(500).json({ message: 'unauthorized', err });
       }
 
-      req.userId = decoded.id;
+      req.user_id = decoded.id;
       next();
     });
   }

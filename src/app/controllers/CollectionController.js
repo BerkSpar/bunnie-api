@@ -26,15 +26,13 @@ class CollectionController {
 
     var { image_url, name, description, is_public, animes } = req.body;
 
-    //TODO: Get user id from auth header
-
     animes.map((anime) => {
       anime.collection_id = 1;
       return anime;
     });
 
     const collection = await Collection.create({
-      user_id: 0,
+      user_id: req.user_id,
       image_url,
       name,
       description,

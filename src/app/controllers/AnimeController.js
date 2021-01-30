@@ -17,11 +17,10 @@ class AnimeController {
 
     const { mal_id, name, current_episode, status, note } = req.body;
 
-    //TODO: Get user id from auth header
     //TODO: Get total_episodes from API
 
     await Anime.create({
-      user_id: 0,
+      user_id: req.user_id,
       mal_id,
       name,
       current_episode,

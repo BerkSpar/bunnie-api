@@ -14,10 +14,8 @@ class PostController {
 
     const { content, image_url } = req.body;
 
-    //TODO: Get user id from auth header
-
     await Post.create({
-      user_id: 0,
+      user_id: req.user_id,
       content,
       image_url,
     });
