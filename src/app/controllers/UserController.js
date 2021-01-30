@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import jwt from 'jsonwebtoken';
-import { Op } from 'sequelize';
+
 import User from '../models/user';
 
 require('dotenv/config');
@@ -58,22 +58,22 @@ class UserController {
   async signIn(req, res) {
     const schema = Yup.object().shape({
       username: Yup.string().required(),
-      password_hash: Yup.string().required(),
+      password: Yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ message: 'validation error' });
     }
 
-    const { username, password_hash } = req.body;
+    const { username, password } = req.body;
 
-    const user = await User.findOne({
-      where: {
-        [Op.and]: [{ username }, { password_hash }],
-      },
-    });
+    const user = await User.findOne({ where: { username } });
 
     if (!user) {
+      return res.status(404).json({ message: 'user not found' });
+    }
+
+    if (!(await user.checkPassword(password))) {
       return res.status(401).json({ message: 'unauthorized' });
     }
 
