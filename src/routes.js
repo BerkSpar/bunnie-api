@@ -40,7 +40,7 @@ routes.put('/post/:post_id');
 routes.delete('/post/:post_id');
 
 //Comments
-routes.get('/posts/:post_id/comments');
+routes.get('/posts/:post_id/comments', Auth.verify, CommentController.index);
 routes.post('/posts/:post_id/comments', Auth.verify, CommentController.store);
 routes.get('/posts/:post_id/comments/:comment_id');
 routes.put('/posts/:post_id/comments/:comment_id');

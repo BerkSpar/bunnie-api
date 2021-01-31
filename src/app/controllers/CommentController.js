@@ -70,6 +70,14 @@ class CommentController {
 
     return res.status(200).json({ message: 'post deleted successfully' });
   }
+
+  async index(req, res) {
+    const post_id = req.params.post_id;
+
+    const comments = await PostComment.findAll({ where: { post_id } });
+
+    return res.status(200).json(comments);
+  }
 }
 
 export default new CommentController();
