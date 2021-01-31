@@ -53,6 +53,22 @@ class PostController {
 
     return res.status(200).json({ message: 'post deleted successfully' });
   }
+
+  async find(req, res) {
+    const id = req.params.post_id;
+
+    const post = await Post.findOne({
+      where: {
+        [Op.and]: { id, user_id: req.user_id },
+      },
+    });
+
+    if (!post) {
+      return res.status(404).json({ message: 'post not found' });
+    }
+
+    return res.status(200).json(post);
+  }
 }
 
 export default new PostController();

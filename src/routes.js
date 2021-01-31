@@ -35,7 +35,7 @@ routes.delete('/users/:user_id');
 //Post
 routes.get('/posts');
 routes.post('/posts', Auth.verify, PostController.store);
-routes.get('/posts/:post_id');
+routes.get('/posts/:post_id', Auth.verify, PostController.find);
 routes.put('/posts/:post_id');
 routes.delete('/posts/:post_id', Auth.verify, PostController.delete);
 
