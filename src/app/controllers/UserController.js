@@ -81,6 +81,34 @@ class UserController {
 
     return res.status(200).json({ token });
   }
+
+  async update(req, res) {
+    const {
+      name,
+      last_name,
+      mobile,
+      username,
+      password,
+      email,
+      bio,
+      is_public,
+    } = req.body;
+
+    const user = await User.findByPk(req.user_id);
+
+    user.update({
+      name,
+      last_name,
+      mobile,
+      username,
+      password,
+      email,
+      bio,
+      is_public,
+    });
+
+    return res.status(200).json({ message: 'user updated successfully' });
+  }
 }
 
 export default new UserController();

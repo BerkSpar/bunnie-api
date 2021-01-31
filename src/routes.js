@@ -23,14 +23,12 @@ routes.get('/', (req, res) => {
 });
 routes.get('/info', (req, res) => res.send('Bunnie API'));
 
-routes.post('/users/signin', UserController.signIn);
+routes.post('/user/signin', UserController.signIn);
 
 //Users
-routes.get('/users');
-routes.post('/users', UserController.store);
-routes.get('/users/:user_id');
-routes.put('/users/:user_id');
-routes.delete('/users/:user_id');
+routes.post('/user', UserController.store);
+routes.put('/user', Auth.verify, UserController.update);
+routes.get('/user/:user_id');
 
 //Post
 routes.get('/posts');
