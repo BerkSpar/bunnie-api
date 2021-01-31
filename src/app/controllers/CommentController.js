@@ -78,6 +78,36 @@ class CommentController {
 
     return res.status(200).json(comments);
   }
+
+  async find(req, res) {
+    const schema = Yup.object().shape({
+      post_id: Yup.string().required(),
+      comment_id: Yup.string().required(),
+    });
+
+    const body = {
+      post_id: req.params.post_id,
+      comment_id: req.params.comment_id,
+    };
+
+    if (!(await schema.isValid(body))) {
+      return res.status(400).json({ message: 'validation error' });
+    }
+
+    const post = await Post.findByPk(body.post_id);
+
+    if (!post) {
+      return res.status(404).json({ message: 'post not found' });
+    }
+
+    const comment = await PostComment.findByPk(body.comment_id);
+
+    if (!comment) {
+      return res.status(404).json({ message: 'comment not found' });
+    }
+
+    return res.status(200).json(comment);
+  }
 }
 
 export default new CommentController();

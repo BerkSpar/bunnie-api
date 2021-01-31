@@ -42,19 +42,21 @@ routes.delete('/post/:post_id');
 //Comments
 routes.get('/posts/:post_id/comments', Auth.verify, CommentController.index);
 routes.post('/posts/:post_id/comments', Auth.verify, CommentController.store);
-routes.get('/posts/:post_id/comments/:comment_id');
+routes.get('/posts/:post_id/comments/:comment_id', Auth.verify, CommentController.find);
 routes.put('/posts/:post_id/comments/:comment_id');
 routes.delete('/posts/:post_id/comments/:comment_id', Auth.verify, CommentController.delete);
 
 //Anime
 routes.get('/animes', Auth.verify, AnimeController.index);
 routes.post('/animes', Auth.verify, AnimeController.store);
+routes.get('/animes/:anime_id');
 routes.put('/animes/:anime_id', Auth.verify, AnimeController.update);
 routes.delete('/animes/:anime_id', Auth.verify, AnimeController.delete);
 
 //Collection
 routes.get('/collections', Auth.verify, CollectionController.index);
 routes.post('/collections', Auth.verify, CollectionController.store);
+routes.get('/collections/:collection_id');
 routes.put('/collections/:collection_id', Auth.verify, CollectionController.update);
 routes.delete('/collections/:collection_id', Auth.verify, CollectionController.delete);
 
