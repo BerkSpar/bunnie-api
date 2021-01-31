@@ -27,7 +27,7 @@ class CommentController {
     await PostComment.create({
       user_id: req.user_id,
       post_id: comment.post_id,
-      content: comment.comment,
+      content: comment.content,
     });
 
     return res.status(200).json({ message: 'comment created successfully' });
