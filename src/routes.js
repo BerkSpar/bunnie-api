@@ -28,7 +28,7 @@ routes.post('/user/signin', UserController.signIn);
 //Users
 routes.post('/user', UserController.store);
 routes.put('/user', Auth.verify, UserController.update);
-routes.get('/user/:user_id');
+routes.get('/user/:user_id', Auth.verify, UserController.find);
 
 //Post
 routes.get('/posts');

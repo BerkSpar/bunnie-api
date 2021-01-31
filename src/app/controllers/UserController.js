@@ -109,6 +109,20 @@ class UserController {
 
     return res.status(200).json({ message: 'user updated successfully' });
   }
+
+  async find(req, res) {
+    const id = req.params.user_id;
+
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'user not found' });
+    }
+
+    user.password_hash = undefined;
+
+    return res.status(200).json(user);
+  }
 }
 
 export default new UserController();
