@@ -43,7 +43,7 @@ routes.delete('/post/:post_id');
 routes.get('/posts/:post_id/comments', Auth.verify, CommentController.index);
 routes.post('/posts/:post_id/comments', Auth.verify, CommentController.store);
 routes.get('/posts/:post_id/comments/:comment_id', Auth.verify, CommentController.find);
-routes.put('/posts/:post_id/comments/:comment_id');
+routes.put('/posts/:post_id/comments/:comment_id', Auth.verify, CommentController.update);
 routes.delete('/posts/:post_id/comments/:comment_id', Auth.verify, CommentController.delete);
 
 //Anime
