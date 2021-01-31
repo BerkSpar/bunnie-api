@@ -142,6 +142,24 @@ class CollectionController {
 
     return res.status(200).json({ message: 'collection updated successfully' });
   }
+
+  async find(req, res) {
+    const collection_id = req.params.collection_id;
+
+    if (!collection_id) {
+      return res.status(400).json({ message: 'validation error' });
+    }
+
+    let collection = await Collection.findByPk(collection_id);
+
+    if (!collection) {
+      return res.status(404).json({ message: 'collection entry not found' });
+    }
+
+    const animes = await CollectionItem.findAll({ where: { collection_id } });
+
+    return res.status(200).json({ collection, animes });
+  }
 }
 
 export default new CollectionController();

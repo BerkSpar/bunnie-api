@@ -56,7 +56,7 @@ routes.delete('/animes/:anime_id', Auth.verify, AnimeController.delete);
 //Collection
 routes.get('/collections', Auth.verify, CollectionController.index);
 routes.post('/collections', Auth.verify, CollectionController.store);
-routes.get('/collections/:collection_id');
+routes.get('/collections/:collection_id', Auth.verify, CollectionController.find);
 routes.put('/collections/:collection_id', Auth.verify, CollectionController.update);
 routes.delete('/collections/:collection_id', Auth.verify, CollectionController.delete);
 
