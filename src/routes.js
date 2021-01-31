@@ -44,7 +44,7 @@ routes.get('/posts/:post_id/comments');
 routes.post('/posts/:post_id/comments', Auth.verify, CommentController.store);
 routes.get('/posts/:post_id/comments/:comment_id');
 routes.put('/posts/:post_id/comments/:comment_id');
-routes.delete('/posts/:post_id/comments/:comment_id');
+routes.delete('/posts/:post_id/comments/:comment_id', Auth.verify, CommentController.delete);
 
 //Anime
 routes.get('/animes', Auth.verify, AnimeController.index);

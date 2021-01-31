@@ -1,4 +1,6 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
+
 import PostComment from '../models/postcomment';
 import Post from '../models/post';
 
@@ -31,6 +33,42 @@ class CommentController {
     });
 
     return res.status(200).json({ message: 'comment created successfully' });
+  }
+
+  async delete(req, res) {
+    const schema = Yup.object().shape({
+      post_id: Yup.string().required(),
+      comment_id: Yup.string().required(),
+    });
+
+    const body = {
+      post_id: req.params.post_id,
+      comment_id: req.params.comment_id,
+    };
+
+    if (!(await schema.isValid(body))) {
+      return res.status(400).json({ message: 'validation error' });
+    }
+
+    const post = await Post.findByPk(body.post_id);
+
+    if (!post) {
+      return res.status(404).json({ message: 'post not found' });
+    }
+
+    const comment = await PostComment.findOne({
+      where: {
+        [Op.and]: { user_id: req.user_id, id: body.comment_id },
+      },
+    });
+
+    if (!comment) {
+      return res.status(404).json({ message: 'comment not found' });
+    }
+
+    await comment.destroy();
+
+    return res.status(200).json({ message: 'post deleted successfully' });
   }
 }
 
