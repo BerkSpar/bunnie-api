@@ -49,7 +49,7 @@ routes.delete('/posts/:post_id/comments/:comment_id', Auth.verify, CommentContro
 //Anime
 routes.get('/animes', Auth.verify, AnimeController.index);
 routes.post('/animes', Auth.verify, AnimeController.store);
-routes.get('/animes/:anime_id');
+routes.get('/animes/:anime_id', Auth.verify, AnimeController.find);
 routes.put('/animes/:anime_id', Auth.verify, AnimeController.update);
 routes.delete('/animes/:anime_id', Auth.verify, AnimeController.delete);
 

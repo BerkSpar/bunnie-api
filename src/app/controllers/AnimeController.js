@@ -98,6 +98,22 @@ class AnimeController {
 
     return res.status(200).json(animes);
   }
+
+  async find(req, res) {
+    const anime_id = req.params.anime_id;
+
+    const anime = await Anime.findOne({
+      where: {
+        [Op.and]: { id: anime_id, user_id: req.user_id },
+      },
+    });
+
+    if (!anime) {
+      return res.status(404).json({ message: 'anime entry not found' });
+    }
+
+    return res.status(200).json(anime);
+  }
 }
 
 export default new AnimeController();
