@@ -69,6 +69,37 @@ class PostController {
 
     return res.status(200).json(post);
   }
+
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      content: Yup.string().required(),
+      image_url: Yup.string().notRequired(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ message: 'validation error' });
+    }
+
+    const { content, image_url } = req.body;
+    const id = req.params.post_id;
+
+    const post = await Post.findOne({
+      where: {
+        [Op.and]: [{ id }, { user_id: req.user_id }],
+      },
+    });
+
+    if (!post) {
+      return res.status(404).json({ message: 'post not found' });
+    }
+
+    await post.update({
+      content,
+      image_url,
+    });
+
+    return res.status(200).json({ message: 'post updated successfully' });
+  }
 }
 
 export default new PostController();
