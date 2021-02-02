@@ -14,7 +14,6 @@ const routes = new Router();
 routes.get('/', (req, res) => {
   res.sendFile('/pages/index.html', { root: __dirname });
 });
-routes.get('/info', (req, res) => res.send('Bunnie API'));
 
 routes.post('/user/signin', UserController.signIn);
 
