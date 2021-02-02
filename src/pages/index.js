@@ -34,7 +34,7 @@ export default `
 </head>
 
 <body>
-  <div><img src="https://raw.githubusercontent.com/BerkSpar/bunnie-api/main/src/pages/bunnie-logo.png" height="100%">
+  <div><img src="https://raw.githubusercontent.com/BerkSpar/bunnie-api/main/src/pages/bunnie-logo.png" width="100%">
   </div>
 </body>
 
