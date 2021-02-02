@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { Router } from 'express';
-import database from './database/index';
 
 import Auth from './app/middlewares/auth';
 
@@ -13,13 +12,7 @@ import CollectionController from './app/controllers/CollectionController';
 const routes = new Router();
 
 routes.get('/', (req, res) => {
-  try {
-    database.connection.authenticate().then(() => {
-      res.send('Connection has been established successfully.');
-    });
-  } catch (error) {
-    res.send('Unable to connect to the database:', error);
-  }
+  res.sendFile('/pages/index.html', { root: __dirname });
 });
 routes.get('/info', (req, res) => res.send('Bunnie API'));
 
