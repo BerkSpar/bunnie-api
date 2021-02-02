@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Router } from 'express';
-
 import Auth from './app/middlewares/auth';
+import homePage from './pages/index';
 
 import PostController from './app/controllers/PostController';
 import CommentController from './app/controllers/CommentController';
@@ -12,7 +12,7 @@ import CollectionController from './app/controllers/CollectionController';
 const routes = new Router();
 
 routes.get('/', (req, res) => {
-  res.sendFile('/pages/index.html', { root: __dirname });
+  res.send(homePage);
 });
 
 routes.post('/user/signin', UserController.signIn);
