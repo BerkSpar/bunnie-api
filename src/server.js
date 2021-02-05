@@ -2,7 +2,7 @@ import app from './app';
 import database from './database';
 
 app.listen(process.env.PORT || 3333, () => {
-  console.log(`Server listening at port ${process.env.PORT || 3333}`);
+  console.log(`Server listening at port http://localhost:3333`);
 
   try {
     database.connection.authenticate().then(() => {
