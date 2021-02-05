@@ -17,13 +17,13 @@ class PostController {
 
     const { content, image_url } = req.body;
 
-    await Post.create({
+    const post = await Post.create({
       user_id: req.user_id,
       content,
       image_url,
     });
 
-    return res.status(200).json({ message: 'post added successfully' });
+    return res.status(200).json(post);
   }
 
   async delete(req, res) {
@@ -83,7 +83,7 @@ class PostController {
     const { content, image_url } = req.body;
     const id = req.params.post_id;
 
-    const post = await Post.findOne({
+    let post = await Post.findOne({
       where: {
         [Op.and]: [{ id }, { user_id: req.user_id }],
       },
@@ -93,12 +93,12 @@ class PostController {
       return res.status(404).json({ message: 'post not found' });
     }
 
-    await post.update({
+    post = await post.update({
       content,
       image_url,
     });
 
-    return res.status(200).json({ message: 'post updated successfully' });
+    return res.status(200).json(post);
   }
 }
 
