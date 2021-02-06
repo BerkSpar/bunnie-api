@@ -85,7 +85,10 @@ class UserController {
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {});
 
-    return res.status(200).json({ token, user });
+    const result = user.toJSON();
+    result.token = token;
+
+    return res.status(200).json(result);
   }
 
   async update(req, res) {
