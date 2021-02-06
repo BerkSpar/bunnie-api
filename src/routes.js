@@ -6,7 +6,7 @@ import homePage from './pages/index';
 import PostController from './app/controllers/PostController';
 import CommentController from './app/controllers/CommentController';
 import UserController from './app/controllers/UserController';
-import AnimeController from './app/controllers/AnimeController';
+import EntryController from './app/controllers/EntryController';
 import CollectionController from './app/controllers/CollectionController';
 
 const routes = new Router();
@@ -36,12 +36,12 @@ routes.get('/posts/:post_id/comments/:comment_id', Auth.verify, CommentControlle
 routes.put('/posts/:post_id/comments/:comment_id', Auth.verify, CommentController.update);
 routes.delete('/posts/:post_id/comments/:comment_id', Auth.verify, CommentController.delete);
 
-//Anime
-routes.get('/animes', Auth.verify, AnimeController.index);
-routes.post('/animes', Auth.verify, AnimeController.store);
-routes.get('/animes/:anime_id', Auth.verify, AnimeController.find);
-routes.put('/animes/:anime_id', Auth.verify, AnimeController.update);
-routes.delete('/animes/:anime_id', Auth.verify, AnimeController.delete);
+//Entry
+routes.get('/entry', Auth.verify, EntryController.index);
+routes.post('/entry', Auth.verify, EntryController.store);
+routes.get('/entry/:entry_id', Auth.verify, EntryController.find);
+routes.put('/entry/:entry_id', Auth.verify, EntryController.update);
+routes.delete('/entry/:entry_id', Auth.verify, EntryController.delete);
 
 //Collection
 routes.get('/collections', Auth.verify, CollectionController.index);

@@ -1,9 +1,9 @@
 import * as Yup from 'yup';
 import { Op } from 'sequelize';
 
-import Anime from '../models/anime';
+import Entry from '../models/entry';
 
-class AnimeController {
+class EntryController {
   async store(req, res) {
     const schema = Yup.object().shape({
       mal_id: Yup.string().required(),
@@ -21,7 +21,7 @@ class AnimeController {
 
     //TODO: Get total_episodes from API
 
-    await Anime.create({
+    const entry = await Entry.create({
       user_id: req.user_id,
       mal_id,
       name,
@@ -31,7 +31,7 @@ class AnimeController {
       note,
     });
 
-    return res.status(200).json({ message: 'anime entry added successfully' });
+    return res.status(200).json(entry);
   }
 
   async update(req, res) {
@@ -46,74 +46,70 @@ class AnimeController {
     }
 
     const { current_episode, status, note } = req.body;
-    const id = req.params.anime_id;
+    const id = req.params.entry_id;
 
-    const anime = await Anime.findOne({
+    let entry = await Entry.findOne({
       where: {
         [Op.and]: [{ id }, { user_id: req.user_id }],
       },
     });
 
-    if (!anime) {
-      return res.status(404).json({ message: 'anime entry not found' });
+    if (!entry) {
+      return res.status(404).json({ message: 'entry not found' });
     }
 
-    await anime.update({
+    entry = await entry.update({
       current_episode,
       status,
       note,
     });
 
-    return res
-      .status(200)
-      .json({ message: 'anime entry updated successfully' });
+    return res.status(200).json(entry);
   }
 
   async delete(req, res) {
-    const id = req.params.anime_id;
+    const id = req.params.entry_id;
 
     if (!id) {
       return res.status(400).json({ message: 'validation error' });
     }
 
-    const anime = await Anime.findOne({
+    const entry = await Entry.findOne({
       where: {
         [Op.and]: [{ id }, { user_id: req.user_id }],
       },
     });
 
-    if (!anime) {
-      return res.status(404).json({ message: 'anime entry not found' });
+    if (!entry) {
+      return res.status(404).json({ message: 'entry not found' });
     }
 
-    await anime.destroy();
+    await entry.destroy();
 
-    return res
-      .status(200)
-      .json({ message: 'anime entry deleted successfully' });
+    return res.status(200).json({ message: 'entry deleted successfully' });
   }
 
   async index(req, res) {
-    const animes = await Anime.findAll({ where: { user_id: req.user_id } });
+    const entries = await Entry.findAll({ where: { user_id: req.user_id } });
 
-    return res.status(200).json(animes);
+    return res.status(200).json(entries);
   }
 
   async find(req, res) {
-    const anime_id = req.params.anime_id;
+    const entry_id = req.params.entry_id;
 
-    const anime = await Anime.findOne({
+    const entry = await Entry.findOne({
       where: {
-        [Op.and]: { id: anime_id, user_id: req.user_id },
+        [Op.and]: { id: entry_id, user_id: req.user_id },
       },
     });
 
-    if (!anime) {
-      return res.status(404).json({ message: 'anime entry not found' });
+    if (!entry) {
+      return res.status(404).json({ message: 'entry not found' });
     }
 
-    return res.status(200).json(anime);
+    return res.status(200).json(entry);
   }
 }
 
-export default new AnimeController();
+export default new EntryController();
