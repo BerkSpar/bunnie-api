@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 
 import Post from '../models/post';
 import PostComment from '../models/postcomment';
+import User from '../models/user';
 
 class PostController {
   async store(req, res) {
@@ -23,7 +24,15 @@ class PostController {
       image_url,
     });
 
-    return res.status(200).json(post);
+    const user = await User.findByPk(post.user_id);
+    user.password = undefined;
+    user.password_hash = undefined;
+
+    const result = post.toJSON();
+    result.user_id = undefined;
+    result.user = user;
+
+    return res.status(200).json(result);
   }
 
   async delete(req, res) {
@@ -67,7 +76,15 @@ class PostController {
       return res.status(404).json({ message: 'post not found' });
     }
 
-    return res.status(200).json(post);
+    const user = await User.findByPk(post.user_id);
+    user.password = undefined;
+    user.password_hash = undefined;
+
+    const result = post.toJSON();
+    result.user_id = undefined;
+    result.user = user;
+
+    return res.status(200).json(result);
   }
 
   async update(req, res) {
@@ -93,12 +110,20 @@ class PostController {
       return res.status(404).json({ message: 'post not found' });
     }
 
+    const user = await User.findByPk(post.user_id);
+    user.password = undefined;
+    user.password_hash = undefined;
+
     post = await post.update({
       content,
       image_url,
     });
 
-    return res.status(200).json(post);
+    const result = post.toJSON();
+    result.user_id = undefined;
+    result.user = user;
+
+    return res.status(200).json(result);
   }
 }
 
