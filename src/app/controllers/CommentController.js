@@ -11,7 +11,7 @@ class CommentController {
       content: Yup.string().required(),
     });
 
-    const comment = {
+    let comment = {
       post_id: req.params.post_id,
       content: req.body.content,
     };
@@ -26,13 +26,13 @@ class CommentController {
       return res.status(404).json({ message: 'post not found' });
     }
 
-    await PostComment.create({
+    comment = await PostComment.create({
       user_id: req.user_id,
       post_id: comment.post_id,
       content: comment.content,
     });
 
-    return res.status(200).json({ message: 'comment created successfully' });
+    return res.status(200).json(comment);
   }
 
   async delete(req, res) {
@@ -68,7 +68,7 @@ class CommentController {
 
     await comment.destroy();
 
-    return res.status(200).json({ message: 'post deleted successfully' });
+    return res.status(200).json({ message: 'comment deleted successfully' });
   }
 
   async index(req, res) {
@@ -132,17 +132,17 @@ class CommentController {
       return res.status(404).json({ message: 'post not found' });
     }
 
-    const comment = await PostComment.findByPk(body.comment_id);
+    let comment = await PostComment.findByPk(body.comment_id);
 
     if (!comment) {
       return res.status(404).json({ message: 'comment not found' });
     }
 
-    await comment.update({
+    comment = await comment.update({
       content: body.content,
     });
 
-    return res.status(200).json({ message: 'comment updated successfully' });
+    return res.status(200).json(comment);
   }
 }
 

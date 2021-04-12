@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 
 import databaseConfig from '../config/database';
 
-import Anime from '../app/models/anime';
+import Entry from '../app/models/entry';
 import Collection from '../app/models/collection';
 import CollectionItem from '../app/models/collectionitem';
 import Message from '../app/models/message';
@@ -13,7 +13,7 @@ import UserFollow from '../app/models/userfollow';
 import UserFriend from '../app/models/userfriend';
 
 const models = [
-  Anime,
+  Entry,
   Collection,
   CollectionItem,
   Message,

@@ -22,7 +22,7 @@ class UserController {
       return res.status(400).json({ message: 'validation error' });
     }
 
-    const user = await User.findOne({ where: { username: req.body.username } });
+    let user = await User.findOne({ where: { username: req.body.username } });
 
     if (user) {
       return res
@@ -41,7 +41,7 @@ class UserController {
       is_public,
     } = req.body;
 
-    await User.create({
+    user = await User.create({
       name,
       last_name,
       mobile,
@@ -52,7 +52,10 @@ class UserController {
       is_public,
     });
 
-    return res.status(200).json({ message: 'user added successfully' });
+    user.password = undefined;
+    user.password_hash = undefined;
+
+    return res.status(200).json(user);
   }
 
   async signIn(req, res) {
@@ -77,9 +80,15 @@ class UserController {
       return res.status(401).json({ message: 'unauthorized' });
     }
 
+    user.password = undefined;
+    user.password_hash = undefined;
+
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {});
 
-    return res.status(200).json({ token });
+    const result = user.toJSON();
+    result.token = token;
+
+    return res.status(200).json(result);
   }
 
   async update(req, res) {
@@ -94,9 +103,9 @@ class UserController {
       is_public,
     } = req.body;
 
-    const user = await User.findByPk(req.user_id);
+    let user = await User.findByPk(req.user_id);
 
-    user.update({
+    user = await user.update({
       name,
       last_name,
       mobile,
@@ -107,7 +116,10 @@ class UserController {
       is_public,
     });
 
-    return res.status(200).json({ message: 'user updated successfully' });
+    user.password_hash = undefined;
+    user.password = undefined;
+
+    return res.status(200).json(user);
   }
 
   async find(req, res) {

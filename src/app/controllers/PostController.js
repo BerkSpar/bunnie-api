@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 
 import Post from '../models/post';
 import PostComment from '../models/postcomment';
+import User from '../models/user';
 
 class PostController {
   async store(req, res) {
@@ -17,13 +18,21 @@ class PostController {
 
     const { content, image_url } = req.body;
 
-    await Post.create({
+    const post = await Post.create({
       user_id: req.user_id,
       content,
       image_url,
     });
 
-    return res.status(200).json({ message: 'post added successfully' });
+    const user = await User.findByPk(post.user_id);
+    user.password = undefined;
+    user.password_hash = undefined;
+
+    const result = post.toJSON();
+    result.user_id = undefined;
+    result.user = user;
+
+    return res.status(200).json(result);
   }
 
   async delete(req, res) {
@@ -67,7 +76,15 @@ class PostController {
       return res.status(404).json({ message: 'post not found' });
     }
 
-    return res.status(200).json(post);
+    const user = await User.findByPk(post.user_id);
+    user.password = undefined;
+    user.password_hash = undefined;
+
+    const result = post.toJSON();
+    result.user_id = undefined;
+    result.user = user;
+
+    return res.status(200).json(result);
   }
 
   async update(req, res) {
@@ -83,7 +100,7 @@ class PostController {
     const { content, image_url } = req.body;
     const id = req.params.post_id;
 
-    const post = await Post.findOne({
+    let post = await Post.findOne({
       where: {
         [Op.and]: [{ id }, { user_id: req.user_id }],
       },
@@ -93,12 +110,20 @@ class PostController {
       return res.status(404).json({ message: 'post not found' });
     }
 
-    await post.update({
+    const user = await User.findByPk(post.user_id);
+    user.password = undefined;
+    user.password_hash = undefined;
+
+    post = await post.update({
       content,
       image_url,
     });
 
-    return res.status(200).json({ message: 'post updated successfully' });
+    const result = post.toJSON();
+    result.user_id = undefined;
+    result.user = user;
+
+    return res.status(200).json(result);
   }
 }
 

@@ -48,7 +48,10 @@ class CollectionController {
 
     await CollectionItem.bulkCreate(animes);
 
-    return res.status(200).json({ message: 'collection added successfully' });
+    const result = collection.toJSON();
+    result.animes = animes;
+
+    return res.status(200).json(result);
   }
 
   async index(req, res) {
@@ -78,9 +81,7 @@ class CollectionController {
 
     await collection.destroy();
 
-    return res
-      .status(200)
-      .json({ message: 'anime entry deleted successfully' });
+    return res.status(200).json({ message: 'collection deleted successfully' });
   }
 
   async update(req, res) {
@@ -114,7 +115,7 @@ class CollectionController {
     });
 
     if (!collection) {
-      return res.status(404).json({ message: 'collection entry not found' });
+      return res.status(404).json({ message: 'collection not found' });
     }
 
     const items = await CollectionItem.findAll({
@@ -138,9 +139,12 @@ class CollectionController {
       return anime;
     });
 
+    const result = collection.toJSON();
+    result.animes = animes;
+
     await CollectionItem.bulkCreate(animes);
 
-    return res.status(200).json({ message: 'collection updated successfully' });
+    return res.status(200).json(result);
   }
 
   async find(req, res) {
@@ -153,12 +157,15 @@ class CollectionController {
     let collection = await Collection.findByPk(collection_id);
 
     if (!collection) {
-      return res.status(404).json({ message: 'collection entry not found' });
+      return res.status(404).json({ message: 'collection not found' });
     }
 
     const animes = await CollectionItem.findAll({ where: { collection_id } });
 
-    return res.status(200).json({ collection, animes });
+    const result = collection.toJSON();
+    result.animes = animes;
+
+    return res.status(200).json(result);
   }
 }
 
