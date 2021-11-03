@@ -14,6 +14,7 @@ It's a NodeJS RestFul API for [Bunnie](https://github.com/berkspar/bunnie).
 
 ### Anime Features
 - [ ] Save anime to a list
+- [ ] Review an anime or collection
 - [ ] Explore others lists
 - [ ] Search and explore animes
 - [ ] Tell that anime you are watching
