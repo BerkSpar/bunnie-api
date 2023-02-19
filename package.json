@@ -34,7 +34,7 @@
     "nodemon": "^2.0.7",
     "path": "^0.12.7",
     "pg": "^8.5.1",
-    "sequelize": "^6.19.1",
+    "sequelize": "^6.28.0",
     "yup": "^0.32.8"
   },
   "devDependencies": {
